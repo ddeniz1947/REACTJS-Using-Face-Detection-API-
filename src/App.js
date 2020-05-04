@@ -1,0 +1,154 @@
+import React, { Component } from 'react';
+import './App.css';
+import Navigation from './components/Navigation/Navigation';
+import Logo from './components/Logo/Logo';
+import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
+import Rank from './components/Rank/Rank';
+import FaceDetection from './components/FaceDetection/FaceDetection';
+import Particles from 'react-particles-js';
+import Clarifai from 'clarifai';
+import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
+
+const app = new Clarifai.App({
+  apiKey: '63a91100bc474995bc84608688334c82'
+});
+
+
+const particlesOptions = {
+  particles: {
+    number: {
+      value: 100,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    }
+  }
+};
+
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      input: '',
+      imageUrl: '',
+      box: {
+
+      },
+      generalArray: [],
+      leftCol: [],
+      topRow: [],
+      rightCol: [],
+      bottomRow: [],
+      sLeftCol: [],
+      sTopRow: [],
+      sRightCol: [],
+      sBottomRow: [],
+      count: '',
+      widthP: 0,
+      heightP: 0,
+      route: 'signin',
+      isSignedIn : false
+    }
+  }
+
+  calculateFaceLocation = (response) => {
+
+    const image = document.getElementById('inputImage');
+    // const width = Number(image.width);
+    this.setState({ widthP: Number(image.width) })
+    // const height = Number(image.height);
+    this.setState({ heightP: Number(image.height) })
+    let counter = 0;
+    this.setState({ generalArray: response.outputs[0].data.regions });
+    // for (let i = 0; i < response.outputs[0].data.regions.length; i++) {
+
+    //   this.state.topRow.push(response.outputs[0].data.regions[i].region_info.bounding_box.top_row * height);
+    //   this.state.leftCol.push(response.outputs[0].data.regions[i].region_info.bounding_box.left_col * width);
+    //   this.state.rightCol.push(width - (response.outputs[0].data.regions[i].region_info.bounding_box.right_col * width));
+    //   this.state.bottomRow.push(height - (response.outputs[0].data.regions[i].region_info.bounding_box.top_row * height));
+    //   counter++;
+
+    // }
+    this.setState({ sLeftCol: this.state.leftCol });
+    this.setState({ sRightCol: this.state.rightCol });
+    this.setState({ sTopRow: this.state.topRow });
+    this.setState({ sBottomRow: this.state.bottomRow });
+
+    // this.setState(this.state.count = counter);
+    // const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box;
+
+
+    // return {
+    //   leftCol: clarifaiFace.left_col * width,
+    //   topRow: clarifaiFace.top_row * height,
+    //   rightCol: width - (clarifaiFace.right_col * width),
+    //   bottomRow: height - (clarifaiFace.bottom_row * height)
+    // }
+
+  }
+
+  // displayFaceBox = (box) => {
+  //   console.log(box);
+  //   this.setState({ box: box });
+  // }
+
+  onInputChange = (event) => {
+    this.setState({ input: event.target.value });
+   
+  }
+
+  onSubmit = () => {
+    this.setState({ imageUrl: this.state.input });
+    console.log()
+    console.log(this.state.imageUrl);
+    app.models
+      .predict(
+        Clarifai.FACE_DETECT_MODEL,
+        this.state.input)
+      .then(response => this.calculateFaceLocation(response))
+      .catch(err => console.log(err));
+  }
+
+
+  onRouteChange = (route) => {
+    this.setState({ route: route });
+    if(route === 'home'){
+      this.setState({isSignedIn:true});
+    }
+    else {
+      this.setState({isSignedIn:false})
+    }
+
+  }
+  render() {
+
+    return (
+      <div className="App">
+        <Particles className='particles'
+          params={particlesOptions} />
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn}/>
+        {this.state.route === 'home'
+          ? <div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm onSubmitClick={this.onSubmit} onInputChange={this.onInputChange} />
+            <FaceDetection width={this.state.widthP} height={this.state.heightP} countArray={this.state.generalArray} imageUrl={this.state.imageUrl} /> </div>
+          : (
+            this.state.route === 'signin'
+              ? <Signin onRouteChange={this.onRouteChange} />
+              : <Register onRouteChange={this.onRouteChange} />
+          )
+
+        }
+      </div>
+    );
+
+  }
+
+}
+
+
+export default App;
