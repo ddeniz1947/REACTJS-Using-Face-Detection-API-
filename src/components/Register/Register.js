@@ -30,8 +30,7 @@ class Register extends Component {
     }
     onSubmitRegister = (e) => {
         e.preventDefault();
-        debugger;
-        fetch('http://localhost:3001/register', {
+        fetch('https://obscure-plateau-23992.herokuapp.com/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
