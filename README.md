@@ -1,4 +1,4 @@
-# React JS Smart Brain Website (using Face Detection API)
+# React JS Smart Brain Website (with Face Detection API)
 ReactJS Web Page. Upload Images and find faces.
 
 For Start Project => Just use terminal and type 'npm start'
