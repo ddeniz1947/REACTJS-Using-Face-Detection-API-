@@ -12,7 +12,7 @@ import Register from './components/Register/Register';
 import FooterComponent from './components/Footer/FooterComponent';
 
 const app = new Clarifai.App({
-  apiKey: '***********'
+  apiKey: '63a91100bc474995bc84608688334c82'
 });
 
 
