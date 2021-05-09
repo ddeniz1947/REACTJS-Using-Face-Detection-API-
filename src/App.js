@@ -10,9 +10,10 @@ import Clarifai from 'clarifai';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import FooterComponent from './components/Footer/FooterComponent';
+import {returnApiKey} from './config.js';
 
 const app = new Clarifai.App({
-  apiKey: '63a91100bc474995bc84608688334c82'
+  apiKey: returnApiKey()
 });
 
 
@@ -245,15 +246,9 @@ class App extends Component {
           : (
             this.state.route === 'signin'
               ? 
-              <div> 
-                <Logo />
                 <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-              </div>
               :
-              <div> 
-                <Logo /> 
                 <Register onRouteChange={this.onRouteChange} />
-              </div>
               
           )
 
