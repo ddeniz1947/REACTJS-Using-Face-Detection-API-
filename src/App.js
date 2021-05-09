@@ -12,7 +12,7 @@ import Register from './components/Register/Register';
 import FooterComponent from './components/Footer/FooterComponent';
 
 const app = new Clarifai.App({
-  apiKey: '63a91100bc474995bc84608688334c82'
+  apiKey: '***********'
 });
 
 
@@ -244,8 +244,17 @@ class App extends Component {
             <FaceDetection width={this.state.widthP} height={this.state.heightP} countArray={this.state.generalArray} imageUrl={this.state.imageUrl} /> </div>
           : (
             this.state.route === 'signin'
-              ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-              : <Register onRouteChange={this.onRouteChange} />
+              ? 
+              <div> 
+                <Logo />
+                <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+              </div>
+              :
+              <div> 
+                <Logo /> 
+                <Register onRouteChange={this.onRouteChange} />
+              </div>
+              
           )
 
         }
