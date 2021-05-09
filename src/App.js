@@ -9,6 +9,7 @@ import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
+import FooterComponent from './components/Footer/FooterComponent';
 
 const app = new Clarifai.App({
   apiKey: '63a91100bc474995bc84608688334c82'
@@ -248,6 +249,7 @@ class App extends Component {
           )
 
         }
+        <FooterComponent />
       </div>
     );
 
