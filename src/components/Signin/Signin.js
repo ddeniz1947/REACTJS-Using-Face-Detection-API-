@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './Signin.css';
+
 class Signin extends Component {
     constructor(props) {
         super(props);
@@ -7,7 +9,8 @@ class Signin extends Component {
             signInPassword: '',
             dataVar: '',
             varBool: false,
-            wrongPass: ''
+            wrongPass: '',
+            isLoading :false
         }
         this.onSubmitSignIn = this.onSubmitSignIn.bind(this);
     }
@@ -23,7 +26,8 @@ class Signin extends Component {
 
     onSubmitSignIn = (e) => {
         e.preventDefault();
-
+        this.setState({isLoading:true});
+        
         fetch('https://obscure-plateau-23992.herokuapp.com/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -34,10 +38,12 @@ class Signin extends Component {
         }).then(response => response.json())
             .then(user => {
                 if (user.id != null) {
+                    this.setState({isLoading:false});
                     this.props.loadUser(user);
                     this.props.onRouteChange('home');
                 }
                 else {
+                    this.setState({isLoading:false});
                     this.setState({ wrongPass: 'Password or Email Wrong !' })
                     this.props.onRouteChange('signin');
                 }
@@ -66,38 +72,52 @@ class Signin extends Component {
 
     render() {
         const { onRouteChange } = this.props;
-        return (
-            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
-                <main className="pa4 black-80">
-                    <form className="measure">
-                        <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                            <legend className="f1 fw6 ph0 mh0">Sign In</legend>
-                            <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                                <input onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address" id="email-address" />
+        
+       if(this.state.isLoading == false)
+          {
+            return (
+                <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
+                    <main className="pa4 black-80">
+                        <form className="measure">
+                            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                                <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+                                <div className="mt3">
+                                    <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                                    <input onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address" id="email-address" />
+                                </div>
+                                <div className="mv3">
+                                    <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                                    <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password" id="password" />
+                                </div>
+                            </fieldset>
+                            <div>{this.state.wrongPass}</div>
+                            <div className="">
+                                <input
+                                    onClick={this.onSubmitSignIn}
+                                    className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                                    type="submit"
+                                    value="Sign in"
+                                />
                             </div>
-                            <div className="mv3">
-                                <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-                                <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password" id="password" />
+                            <div className="lh-copy mt3">
+                                <p onClick={() => onRouteChange('register')} href="#0" className="f6 link dim black db pointer">Register</p>
                             </div>
-                        </fieldset>
-                        <div>{this.state.wrongPass}</div>
-                        <div className="">
-                            <input
-                                onClick={this.onSubmitSignIn}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                                type="submit"
-                                value="Sign in"
-                            />
+                        </form>
+                    </main>
+                </article>
+            )
+          }else{
+              return(
+                  <div className="loadingGeneral">
+                        <div className="loadingClass">
                         </div>
-                        <div className="lh-copy mt3">
-                            <p onClick={() => onRouteChange('register')} href="#0" className="f6 link dim black db pointer">Register</p>
-                        </div>
-                    </form>
-                </main>
-            </article>
-        )
+                  </div>
+              )
+          }
+        
     }
+
+
 
 }
 
