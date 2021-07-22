@@ -79,6 +79,7 @@ class Signin extends Component {
                 <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
                     <main className="pa4 black-80">
                         <form className="measure">
+                            <h1 className="gradientHeaderLogin">Welcome to Face Detection Web App</h1> 
                             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                                 <legend className="f1 fw6 ph0 mh0">Sign In</legend>
                                 <div className="mt3">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './Register.css';
 class Register extends Component {
 
     constructor(props) {
@@ -51,20 +51,20 @@ class Register extends Component {
                     else {
                         this.setState({ isLoading: false });
                         this.setState(
-                            {wrongReg: 'Register Failed. This E-Mail was taken!'}
+                            { wrongReg: 'Register Failed. This E-Mail was taken!' }
                         )
                     }
                 }
                 else {
                     this.setState({ isLoading: false });
                     this.setState(
-                        {wrongReg: 'Register Failed. Please submit correct data! (This email may have been received.)'},)
+                        { wrongReg: 'Register Failed. Please submit correct data! (This email may have been received.)' })
                 }
             })
             .catch(err => {
                 this.setState({ isLoading: false });
                 this.setState(
-                    {wrongReg: 'Register Failed. This E-Mail was taken!'})
+                    { wrongReg: 'Register Failed. This E-Mail was taken!' })
             });
     }
 
@@ -74,9 +74,11 @@ class Register extends Component {
     render() {
         if (this.state.isLoading == false) {
             return (
+
                 <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
                     <main className="pa4 black-80">
                         <form className="measure">
+                            <h1 className="gradientHeaderRegister">Welcome to Face Detection Web App</h1>  
                             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                                 <legend className="f1 fw6 ph0 mh0">Register</legend>
                                 <div className="mt3">
@@ -104,12 +106,13 @@ class Register extends Component {
                         </form>
                     </main>
                 </article>
+
             )
         }
         else {
             return (
-                <div className="loadingGeneral">
-                    <div className="loadingClass">
+                <div className="loadingGeneralRegister">
+                    <div className="loadingClassRegister">
                     </div>
                 </div>
             )
